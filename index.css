@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    width: 100vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.cell {
+    width: 10vh;
+    height: 10vh;
+}
+
+.alive {
+    background-color: black;
+}
+
+.dead {
+    background-color: gray;
+}
