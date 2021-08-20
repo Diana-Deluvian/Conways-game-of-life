@@ -8,10 +8,11 @@ function generateCells(){
     for (let i = 0; i < 10; i++){
         for(let j = 0; j < 10; j++) {
             const newCell = document.createElement("div");
-            newCell.classList.add("cell");
+            newCell.classList.add("cell", "dead");
             newCell.setAttribute("id", i*10 + j + '');
             newCell. onclick = function(event) {
                 newCell.classList.add("alive");
+                newCell.classList.remove("dead");
                 }
             container.appendChild(newCell);
         }
@@ -20,14 +21,17 @@ function generateCells(){
 }
 
 function advanceGeneration(){
-    let cells = document.getElementsByClassName("alive");
-    for(let i = 0; i < cells.length; i++){
-        let cell = cells[i];
+    for(let i = 0; i < allCells.length; i++){
+        let cell = allCells[i];
         let cellSurroundings = surroundings(allCells, Math.floor(cell.id/10), cell.id%10);
-        checkFirstRule(cell, cellSurroundings);
+        getNearbyAlive(cell, cellSurroundings);
     }
     killCells();
     liveCells();
+}
+
+function autoAdvance() {
+    //to implement
 }
 
 function getCell(matrix, y, x) {
@@ -36,7 +40,6 @@ function getCell(matrix, y, x) {
     try {
         value = true ? document.getElementById(y*10 + x + '').classList.contains('alive') : NO_VALUE;
     } catch(e) {
-        console.log(e);
         value = NO_VALUE;
     }
   
@@ -57,17 +60,19 @@ function getCell(matrix, y, x) {
     }
   }
 
-function checkFirstRule(cell, surroundings){
+function getNearbyAlive(cell, surroundings) {
     let totalAlive = 0;
     for (const neighbour in surroundings) {
-        console.log(surroundings[neighbour]);
         if(surroundings[neighbour]) totalAlive++;
     }
-    console.log(cell.id, totalAlive);
-    if(totalAlive < 2) toDie.push(cell.id);
+    if(totalAlive < 2) toDie.push(cell.id); //first rule
+    if(totalAlive === 3) toLive.push(cell.id);//third rule
+    if(totalAlive > 3) toDie.push(cell.id); //fourth rule
 }
 
+
 window.onload = function() {
+    window.interval = false;
     generateCells();
     window.allCells = document.getElementsByClassName("cell");
     window.toDie = [];
@@ -75,17 +80,21 @@ window.onload = function() {
   };
 
 function killCells() {
+    console.log(toDie);
     toDie.forEach(id => {
         document.getElementById(id).classList.remove("alive");
         document.getElementById(id).classList.add("dead");
-    })
+    });
+    toDie = [];
 }
 
 function liveCells() {
+    console.log(toLive);
     toLive.forEach(id => {
         document.getElementById(id).classList.remove("dead");
         document.getElementById(id).classList.add("alive");
-    })
+    });
+    toLive = [];
 }
 
   
