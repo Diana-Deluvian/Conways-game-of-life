@@ -5,11 +5,11 @@
 
 function generateCells(){
     let containers = document.getElementById('container');
-    for (let i = 0; i < 10; i++){
-        for(let j = 0; j < 10; j++) {
+    for (let i = 0; i < 100; i++){
+        for(let j = 0; j < 100; j++) {
             const newCell = document.createElement("div");
             newCell.classList.add("cell", "dead");
-            newCell.setAttribute("id", i*10 + j + '');
+            newCell.setAttribute("id", i*100 + j + '');
             newCell. onclick = function(event) {
                 newCell.classList.add("alive");
                 newCell.classList.remove("dead");
@@ -23,7 +23,7 @@ function generateCells(){
 function advanceGeneration(){
     for(let i = 0; i < allCells.length; i++){
         let cell = allCells[i];
-        let cellSurroundings = surroundings(allCells, Math.floor(cell.id/10), cell.id%10);
+        let cellSurroundings = surroundings(allCells, Math.floor(cell.id/100), cell.id%100);
         getNearbyAlive(cell, cellSurroundings);
     }
     killCells();
@@ -31,14 +31,23 @@ function advanceGeneration(){
 }
 
 function autoAdvance() {
-    //to implement
+    update = !update;
+    if(update) interval = setInterval(advanceGeneration, 100);
+    else clearInterval(interval);
 }
+
+function clearBoard() {
+    Array.from(document.getElementsByClassName("alive")).map(elem => {
+        elem.classList.remove("alive");
+        elem.classList.add("dead")});
+}
+
 
 function getCell(matrix, y, x) {
     let NO_VALUE = false;
     let value;
     try {
-        value = true ? document.getElementById(y*10 + x + '').classList.contains('alive') : NO_VALUE;
+        value = true ? document.getElementById(y*100 + x + '').classList.contains('alive') : NO_VALUE;
     } catch(e) {
         value = NO_VALUE;
     }
@@ -72,7 +81,8 @@ function getNearbyAlive(cell, surroundings) {
 
 
 window.onload = function() {
-    window.interval = false;
+    window.interval;
+    window.update = false;
     generateCells();
     window.allCells = document.getElementsByClassName("cell");
     window.toDie = [];

@@ -12,8 +12,8 @@ body {
 }
 
 .cell {
-    width: 10vh;
-    height: 10vh;
+    width: 1vh;
+    height: 1vh;
 }
 
 .alive {
