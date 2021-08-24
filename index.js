@@ -3,27 +3,27 @@
 //  Any live cell with more than three live neighbours dies, as if by overpopulation.
 //  Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 
+var size = 10;
+
 function generateCells(){
-    let containers = document.getElementById('container');
-    for (let i = 0; i < 100; i++){
-        for(let j = 0; j < 100; j++) {
+    let container = document.getElementById('container');
+    for (let i = 0; i < size; i++){
+        for(let j = 0; j < size; j++) {
             const newCell = document.createElement("div");
             newCell.classList.add("cell", "dead");
-            newCell.setAttribute("id", i*100 + j + '');
-            newCell. onclick = function(event) {
-                newCell.classList.add("alive");
-                newCell.classList.remove("dead");
+            newCell.setAttribute("id", i*size + j + '');
+            newCell.onclick = function(event) {
+                newCell.classList.toggle("alive");
                 }
             container.appendChild(newCell);
         }
     }
-    
 }
 
 function advanceGeneration(){
     for(let i = 0; i < allCells.length; i++){
         let cell = allCells[i];
-        let cellSurroundings = surroundings(allCells, Math.floor(cell.id/100), cell.id%100);
+        let cellSurroundings = surroundings(allCells, Math.floor(cell.id/size), cell.id%size);
         getNearbyAlive(cell, cellSurroundings);
     }
     killCells();
@@ -39,7 +39,7 @@ function autoAdvance() {
 function clearBoard() {
     Array.from(document.getElementsByClassName("alive")).map(elem => {
         elem.classList.remove("alive");
-        elem.classList.add("dead")});
+});
 }
 
 
@@ -47,7 +47,7 @@ function getCell(matrix, y, x) {
     let NO_VALUE = false;
     let value;
     try {
-        value = true ? document.getElementById(y*100 + x + '').classList.contains('alive') : NO_VALUE;
+        value = true ? document.getElementById(y*size + x + '').classList.contains('alive') : NO_VALUE;
     } catch(e) {
         value = NO_VALUE;
     }
@@ -59,13 +59,13 @@ function getCell(matrix, y, x) {
     // Directions are clockwise
     return {
       up:        getCell(matrix, y-1, x),
-      upRight:   getCell(matrix, y-1, x+1),
-      right:     getCell(matrix, y,   x+1),
-      downRight: getCell(matrix, y+1, x+1),
+      upRight:   x === size-1 ? false : getCell(matrix, y-1, x+1),
+      right:     x === size-1 ? false : getCell(matrix, y,   x+1),
+      downRight: x === size-1 ? false : getCell(matrix, y+1, x+1),
       down:      getCell(matrix, y+1, x),
-      downLeft:  getCell(matrix, y+1, x-1),
-      left:      getCell(matrix, y,   x-1),
-      upLeft:    getCell(matrix, y-1, x-1)
+      downLeft:  x === 0 ? false : getCell(matrix, y+1, x-1),
+      left:      x === 0 ? false : getCell(matrix, y,   x-1),
+      upLeft:    x === 0 ? false : getCell(matrix, y-1, x-1)
     }
   }
 
@@ -74,6 +74,7 @@ function getNearbyAlive(cell, surroundings) {
     for (const neighbour in surroundings) {
         if(surroundings[neighbour]) totalAlive++;
     }
+    console.log(surroundings, cell.id);
     if(totalAlive < 2) toDie.push(cell.id); //first rule
     if(totalAlive === 3) toLive.push(cell.id);//third rule
     if(totalAlive > 3) toDie.push(cell.id); //fourth rule
@@ -90,21 +91,21 @@ window.onload = function() {
   };
 
 function killCells() {
-    console.log(toDie);
     toDie.forEach(id => {
         document.getElementById(id).classList.remove("alive");
-        document.getElementById(id).classList.add("dead");
     });
     toDie = [];
 }
 
 function liveCells() {
-    console.log(toLive);
     toLive.forEach(id => {
-        document.getElementById(id).classList.remove("dead");
         document.getElementById(id).classList.add("alive");
     });
     toLive = [];
+}
+
+function toggleBorder() {
+    Array.from(allCells).forEach(elem => elem.classList.toggle("border"));
 }
 
   
