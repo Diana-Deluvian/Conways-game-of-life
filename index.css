@@ -1,5 +1,5 @@
 :root {
-    --cellsize: 10%;
+    --cellsize: 2%;
   }
   
 
@@ -8,7 +8,15 @@ body {
     padding: 0;
 }
 
-#container {
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+
+}
+
+#cellContainer {
     width: 100vh;
     height: 100vh;
     min-width: 500px;
@@ -16,7 +24,6 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: stretch;
 }
 
 .cell {
@@ -35,3 +42,31 @@ body {
 .alive {
     background-color: black;
 }
+
+.rules {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+p {
+    max-width: 80%;
+}
+
+ol {
+}
+
+li {
+    padding: 0.3vw;
+    list-style-position: inside;
+}
+
+li:first-of-type {
+    margin-top: 1vw;
+}
+
+

@@ -3,10 +3,10 @@
 //  Any live cell with more than three live neighbours dies, as if by overpopulation.
 //  Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 
-var size = 10;
+var size = 50;
 
 function generateCells(){
-    let container = document.getElementById('container');
+    let container = document.getElementById('cellContainer');
     for (let i = 0; i < size; i++){
         for(let j = 0; j < size; j++) {
             const newCell = document.createElement("div");

@@ -8,11 +8,33 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="container"></div>
-    <button onclick="advanceGeneration()">Advance Generation!</button>
-    <button onclick="autoAdvance()">Toggle Auto Advance</button>
-    <button onclick="clearBoard()">Clear Board</button>
-    <button onclick="toggleBorder()">Toggle cell-borders</button>
-    <script src="index.js"></script>
+    <div class="container">
+        <div id="cellContainer"></div>
+        <div id="content">
+            <div class="rules">
+                <h2>Conway's Game of Life</h2>
+                <p>Conway's game of life is a matrix of cells with just a few simple rules that serve
+                    to illustrate how even a seemingly simple set up and configuration can yield profound
+                    and even impossible to predict results. It is turing complete, but this small version
+                    meant only for display purposes is limited to 50x50 cells (by design it is infinite).
+                </p>
+                <ol>The rules are as follows:
+                    <br>
+                    <li>Any live cell with fewer than two live neighbours dies, as if by underpopulation.</li>
+                    <li>Any live cell with two or three live neighbours lives on to the next generation.</li>
+                    <li>Any live cell with more than three live neighbours dies, as if by overpopulation.</li>
+                    <li>Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.</li>
+                </ol>
+                <p>You can left click to toggle a cell between alive(black) and dead, and set up your own
+                    configurations, or use one of the preselected ones below, and let the game mesmerize you. </p>
+            </div>
+            <div class="options">
+                <button onclick="advanceGeneration()">Advance Generation!</button>
+                <button onclick="autoAdvance()">Toggle Auto Advance</button>
+                <button onclick="clearBoard()">Clear Board</button>
+                <button onclick="toggleBorder()">Toggle cell-borders</button></div>
+        </div>
+        <script src="index.js"></script>
+    </div>
 </body>
 </html>
