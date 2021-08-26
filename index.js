@@ -3,7 +3,7 @@
 //  Any live cell with more than three live neighbours dies, as if by overpopulation.
 //  Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 
-var size = 50;
+var size = 25;
 
 function generateCells(){
     let container = document.getElementById('cellContainer');
@@ -30,8 +30,9 @@ function advanceGeneration(){
     liveCells();
 }
 
-function autoAdvance() {
+function autoAdvance(button) {
     update = !update;
+    button.classList.toggle("toggle");
     if(update) interval = setInterval(advanceGeneration, 100);
     else clearInterval(interval);
 }
@@ -74,7 +75,6 @@ function getNearbyAlive(cell, surroundings) {
     for (const neighbour in surroundings) {
         if(surroundings[neighbour]) totalAlive++;
     }
-    console.log(surroundings, cell.id);
     if(totalAlive < 2) toDie.push(cell.id); //first rule
     if(totalAlive === 3) toLive.push(cell.id);//third rule
     if(totalAlive > 3) toDie.push(cell.id); //fourth rule
@@ -104,8 +104,9 @@ function liveCells() {
     toLive = [];
 }
 
-function toggleBorder() {
+function toggleBorder(button) {
     Array.from(allCells).forEach(elem => elem.classList.toggle("border"));
+    button.classList.toggle("toggle");
 }
 
   

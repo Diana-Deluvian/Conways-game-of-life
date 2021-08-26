@@ -1,5 +1,5 @@
 :root {
-    --cellsize: 2%;
+    --cellsize: 4%;
   }
   
 
@@ -58,6 +58,7 @@ p {
 }
 
 ol {
+    max-width: 80%;
 }
 
 li {
@@ -69,4 +70,19 @@ li:first-of-type {
     margin-top: 1vw;
 }
 
+.options {
+    display: flex;
+    justify-content: center;
+}
+button {
+    font-size: 3vh;
+    border-color: #2196F3;
+    color: dodgerblue;
+    margin: 1vh;
+    padding: 1.5vh;
+}
+.toggle {
+    border-color: #04AA6D;
+    color: green;
+}
 
